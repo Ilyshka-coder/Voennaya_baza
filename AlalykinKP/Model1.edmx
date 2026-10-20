@@ -1,0 +1,380 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище MilitaryDistrictModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Вид_войск">
+          <Key>
+            <PropertyRef Name="id_vid" />
+          </Key>
+          <Property Name="id_vid" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="nazvanie" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Личный_состав">
+          <Key>
+            <PropertyRef Name="id_soldat" />
+          </Key>
+          <Property Name="id_soldat" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="familya" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="imya" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="otchestvo" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="id_rota" Type="int" />
+          <Property Name="dolzhnost" Type="nvarchar" MaxLength="100" />
+          <Property Name="data_rozhdeniya" Type="date" Nullable="false" />
+          <Property Name="data_postupleniya" Type="date" Nullable="false" />
+          <Property Name="nagrady" Type="nvarchar(max)" />
+          <Property Name="uchastie" Type="nvarchar(max)" />
+          <Property Name="image" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Место_дислокации">
+          <Key>
+            <PropertyRef Name="id_mesto" />
+          </Key>
+          <Property Name="id_mesto" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="strana" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="gorod" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="adres" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="ploshad" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Роты">
+          <Key>
+            <PropertyRef Name="id_rota" />
+          </Key>
+          <Property Name="id_rota" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="nazvanie_roty" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="id_chast" Type="int" />
+        </EntityType>
+        <EntityType Name="Части">
+          <Key>
+            <PropertyRef Name="id_chast" />
+          </Key>
+          <Property Name="id_chast" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="nomer_chasti" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="id_mesto" Type="int" />
+          <Property Name="id_vid" Type="int" />
+        </EntityType>
+        <Association Name="FK__Личный_со__id_ro__06CD04F7">
+          <End Role="Роты" Type="Self.Роты" Multiplicity="0..1" />
+          <End Role="Личный_состав" Type="Self.Личный_состав" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Роты">
+              <PropertyRef Name="id_rota" />
+            </Principal>
+            <Dependent Role="Личный_состав">
+              <PropertyRef Name="id_rota" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Роты__id_chast__619B8048">
+          <End Role="Части" Type="Self.Части" Multiplicity="0..1" />
+          <End Role="Роты" Type="Self.Роты" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Части">
+              <PropertyRef Name="id_chast" />
+            </Principal>
+            <Dependent Role="Роты">
+              <PropertyRef Name="id_chast" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Части__id_mesto__5DCAEF64">
+          <End Role="Место_дислокации" Type="Self.Место_дислокации" Multiplicity="0..1" />
+          <End Role="Части" Type="Self.Части" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Место_дислокации">
+              <PropertyRef Name="id_mesto" />
+            </Principal>
+            <Dependent Role="Части">
+              <PropertyRef Name="id_mesto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Части__id_vid__5EBF139D">
+          <End Role="Вид_войск" Type="Self.Вид_войск" Multiplicity="0..1" />
+          <End Role="Части" Type="Self.Части" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Вид_войск">
+              <PropertyRef Name="id_vid" />
+            </Principal>
+            <Dependent Role="Части">
+              <PropertyRef Name="id_vid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище MilitaryDistrictModelContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Вид_войск" EntityType="Self.Вид_войск" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Личный_состав" EntityType="Self.Личный_состав" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Место_дислокации" EntityType="Self.Место_дислокации" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Роты" EntityType="Self.Роты" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Части" EntityType="Self.Части" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Личный_со__id_ro__06CD04F7" Association="Self.FK__Личный_со__id_ro__06CD04F7">
+            <End Role="Роты" EntitySet="Роты" />
+            <End Role="Личный_состав" EntitySet="Личный_состав" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Роты__id_chast__619B8048" Association="Self.FK__Роты__id_chast__619B8048">
+            <End Role="Части" EntitySet="Части" />
+            <End Role="Роты" EntitySet="Роты" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Части__id_mesto__5DCAEF64" Association="Self.FK__Части__id_mesto__5DCAEF64">
+            <End Role="Место_дислокации" EntitySet="Место_дислокации" />
+            <End Role="Части" EntitySet="Части" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Части__id_vid__5EBF139D" Association="Self.FK__Части__id_vid__5EBF139D">
+            <End Role="Вид_войск" EntitySet="Вид_войск" />
+            <End Role="Части" EntitySet="Части" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MilitaryDistrictModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Вид_войск">
+          <Key>
+            <PropertyRef Name="id_vid" />
+          </Key>
+          <Property Name="id_vid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nazvanie" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Части" Relationship="Self.FK__Части__id_vid__5EBF139D" FromRole="Вид_войск" ToRole="Части" />
+        </EntityType>
+        <EntityType Name="Личный_состав">
+          <Key>
+            <PropertyRef Name="id_soldat" />
+          </Key>
+          <Property Name="id_soldat" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="familya" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="imya" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="otchestvo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="id_rota" Type="Int32" />
+          <Property Name="dolzhnost" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="data_rozhdeniya" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="data_postupleniya" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="nagrady" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="uchastie" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Роты" Relationship="Self.FK__Личный_со__id_ro__06CD04F7" FromRole="Личный_состав" ToRole="Роты" />
+        </EntityType>
+        <EntityType Name="Место_дислокации">
+          <Key>
+            <PropertyRef Name="id_mesto" />
+          </Key>
+          <Property Name="id_mesto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="strana" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="gorod" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="adres" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ploshad" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Части" Relationship="Self.FK__Части__id_mesto__5DCAEF64" FromRole="Место_дислокации" ToRole="Части" />
+        </EntityType>
+        <EntityType Name="Роты">
+          <Key>
+            <PropertyRef Name="id_rota" />
+          </Key>
+          <Property Name="id_rota" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nazvanie_roty" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="id_chast" Type="Int32" />
+          <NavigationProperty Name="Личный_состав" Relationship="Self.FK__Личный_со__id_ro__06CD04F7" FromRole="Роты" ToRole="Личный_состав" />
+          <NavigationProperty Name="Части" Relationship="Self.FK__Роты__id_chast__619B8048" FromRole="Роты" ToRole="Части" />
+        </EntityType>
+        <EntityType Name="Части">
+          <Key>
+            <PropertyRef Name="id_chast" />
+          </Key>
+          <Property Name="id_chast" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nomer_chasti" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="id_mesto" Type="Int32" />
+          <Property Name="id_vid" Type="Int32" />
+          <NavigationProperty Name="Вид_войск" Relationship="Self.FK__Части__id_vid__5EBF139D" FromRole="Части" ToRole="Вид_войск" />
+          <NavigationProperty Name="Место_дислокации" Relationship="Self.FK__Части__id_mesto__5DCAEF64" FromRole="Части" ToRole="Место_дислокации" />
+          <NavigationProperty Name="Роты" Relationship="Self.FK__Роты__id_chast__619B8048" FromRole="Части" ToRole="Роты" />
+        </EntityType>
+        <Association Name="FK__Части__id_vid__5EBF139D">
+          <End Role="Вид_войск" Type="Self.Вид_войск" Multiplicity="0..1" />
+          <End Role="Части" Type="Self.Части" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Вид_войск">
+              <PropertyRef Name="id_vid" />
+            </Principal>
+            <Dependent Role="Части">
+              <PropertyRef Name="id_vid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Личный_со__id_ro__06CD04F7">
+          <End Role="Роты" Type="Self.Роты" Multiplicity="0..1" />
+          <End Role="Личный_состав" Type="Self.Личный_состав" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Роты">
+              <PropertyRef Name="id_rota" />
+            </Principal>
+            <Dependent Role="Личный_состав">
+              <PropertyRef Name="id_rota" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Части__id_mesto__5DCAEF64">
+          <End Role="Место_дислокации" Type="Self.Место_дислокации" Multiplicity="0..1" />
+          <End Role="Части" Type="Self.Части" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Место_дислокации">
+              <PropertyRef Name="id_mesto" />
+            </Principal>
+            <Dependent Role="Части">
+              <PropertyRef Name="id_mesto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Роты__id_chast__619B8048">
+          <End Role="Части" Type="Self.Части" Multiplicity="0..1" />
+          <End Role="Роты" Type="Self.Роты" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Части">
+              <PropertyRef Name="id_chast" />
+            </Principal>
+            <Dependent Role="Роты">
+              <PropertyRef Name="id_chast" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MilitaryDistrictEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Вид_войск" EntityType="Self.Вид_войск" />
+          <EntitySet Name="Личный_состав" EntityType="Self.Личный_состав" />
+          <EntitySet Name="Место_дислокации" EntityType="Self.Место_дислокации" />
+          <EntitySet Name="Роты" EntityType="Self.Роты" />
+          <EntitySet Name="Части" EntityType="Self.Части" />
+          <AssociationSet Name="FK__Части__id_vid__5EBF139D" Association="Self.FK__Части__id_vid__5EBF139D">
+            <End Role="Вид_войск" EntitySet="Вид_войск" />
+            <End Role="Части" EntitySet="Части" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Личный_со__id_ro__06CD04F7" Association="Self.FK__Личный_со__id_ro__06CD04F7">
+            <End Role="Роты" EntitySet="Роты" />
+            <End Role="Личный_состав" EntitySet="Личный_состав" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Части__id_mesto__5DCAEF64" Association="Self.FK__Части__id_mesto__5DCAEF64">
+            <End Role="Место_дислокации" EntitySet="Место_дислокации" />
+            <End Role="Части" EntitySet="Части" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Роты__id_chast__619B8048" Association="Self.FK__Роты__id_chast__619B8048">
+            <End Role="Части" EntitySet="Части" />
+            <End Role="Роты" EntitySet="Роты" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище MilitaryDistrictModelContainer" CdmEntityContainer="MilitaryDistrictEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MilitaryDistrictModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Вид_войск">
+            <EntityTypeMapping TypeName="MilitaryDistrictModel.Вид_войск">
+              <MappingFragment StoreEntitySet="Вид_войск">
+                <ScalarProperty Name="id_vid" ColumnName="id_vid" />
+                <ScalarProperty Name="nazvanie" ColumnName="nazvanie" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Личный_состав">
+            <EntityTypeMapping TypeName="MilitaryDistrictModel.Личный_состав">
+              <MappingFragment StoreEntitySet="Личный_состав">
+                <ScalarProperty Name="id_soldat" ColumnName="id_soldat" />
+                <ScalarProperty Name="familya" ColumnName="familya" />
+                <ScalarProperty Name="imya" ColumnName="imya" />
+                <ScalarProperty Name="otchestvo" ColumnName="otchestvo" />
+                <ScalarProperty Name="id_rota" ColumnName="id_rota" />
+                <ScalarProperty Name="dolzhnost" ColumnName="dolzhnost" />
+                <ScalarProperty Name="data_rozhdeniya" ColumnName="data_rozhdeniya" />
+                <ScalarProperty Name="data_postupleniya" ColumnName="data_postupleniya" />
+                <ScalarProperty Name="nagrady" ColumnName="nagrady" />
+                <ScalarProperty Name="uchastie" ColumnName="uchastie" />
+                <ScalarProperty Name="image" ColumnName="image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Место_дислокации">
+            <EntityTypeMapping TypeName="MilitaryDistrictModel.Место_дислокации">
+              <MappingFragment StoreEntitySet="Место_дислокации">
+                <ScalarProperty Name="id_mesto" ColumnName="id_mesto" />
+                <ScalarProperty Name="strana" ColumnName="strana" />
+                <ScalarProperty Name="gorod" ColumnName="gorod" />
+                <ScalarProperty Name="adres" ColumnName="adres" />
+                <ScalarProperty Name="ploshad" ColumnName="ploshad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Роты">
+            <EntityTypeMapping TypeName="MilitaryDistrictModel.Роты">
+              <MappingFragment StoreEntitySet="Роты">
+                <ScalarProperty Name="id_rota" ColumnName="id_rota" />
+                <ScalarProperty Name="nazvanie_roty" ColumnName="nazvanie_roty" />
+                <ScalarProperty Name="id_chast" ColumnName="id_chast" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Части">
+            <EntityTypeMapping TypeName="MilitaryDistrictModel.Части">
+              <MappingFragment StoreEntitySet="Части">
+                <ScalarProperty Name="id_chast" ColumnName="id_chast" />
+                <ScalarProperty Name="nomer_chasti" ColumnName="nomer_chasti" />
+                <ScalarProperty Name="id_mesto" ColumnName="id_mesto" />
+                <ScalarProperty Name="id_vid" ColumnName="id_vid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

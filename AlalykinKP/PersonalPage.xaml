@@ -1,0 +1,103 @@
+﻿<Page x:Class="AlalykinKP.PersonalPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AlalykinKP"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PersonalPage" FontFamily="Courier New">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left">
+            <StackPanel Margin="10" Orientation="Horizontal">
+                <TextBlock Text="Поиск" TextAlignment="Center" Margin="5" FontSize="20"></TextBlock>
+                <TextBox Name="TBoxSearch" TextChanged="TBoxSearch_TextChanged" FontSize="20" Width="300"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Фильтр" TextAlignment="Center" Margin="5" FontSize="20"></TextBlock>
+                <ComboBox Name="ComboType" SelectionChanged="ComboType_SelectionChanged"  FontSize="20" Width="200">
+                    <TextBlock>Все</TextBlock>
+                    <TextBlock>мотострелковая рота</TextBlock>
+                    <TextBlock>танковая рота</TextBlock>
+                    <TextBlock>воздушно-десантная рота</TextBlock>
+                    <TextBlock>рота морской пехоты</TextBlock>
+                    <TextBlock>рота БПЛА</TextBlock>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Сортировка" TextAlignment="Center" Margin="5" FontSize="20"></TextBlock>
+                <ComboBox Name="SortType" SelectionChanged="SortType_SelectionChanged"  FontSize="20" Width="200">
+                    <TextBlock>без сортировки</TextBlock>
+                    <TextBlock>По фамилии</TextBlock>
+                    <TextBlock>По дате рождения</TextBlock>
+                    <TextBlock>По дате поступления</TextBlock>
+                </ComboBox>
+            </StackPanel>
+            <TextBlock Name="personalCount" FontSize="20" VerticalAlignment="Center" Margin="10"/>
+        </WrapPanel>        
+        <Button Name="AddButton" Content="Добавить" Click="AddButton_Click"  HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10" FontSize="20"></Button>
+        <ListView Name="ListView" Grid.Row="2" HorizontalAlignment="Center">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="1680"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="4" Background="#89e892" BorderThickness="1" BorderBrush="Black"></Border>
+                        <Image Width="200" Grid.Column="0" Grid.RowSpan="4" Stretch="UniformToFill" HorizontalAlignment="Center">
+                            <Image.Source>
+                                <Binding Path="image">
+                                    <Binding.TargetNullValue>
+                                        <ImageSource>
+                                            Images/not_found.png
+                                        </ImageSource>
+                                    </Binding.TargetNullValue>
+                                </Binding>
+                            </Image.Source>
+                        </Image>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <TextBlock Text="{Binding familya}" FontSize="25"/>
+                            <TextBlock Text=" " FontSize="25"/>
+                            <TextBlock Text="{Binding imya}" FontSize="25"/>
+                            <TextBlock Text=" " FontSize="25"/>
+                            <TextBlock Text="{Binding otchestvo}" FontSize="25"/>
+                            <TextBlock Text=", " FontSize="25"/>
+                            <TextBlock Text="{Binding rota}" FontSize="25"/>
+                            <TextBlock Text=", " FontSize="25"/>
+                            <TextBlock Text="{Binding dolzhnost}" FontSize="25"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                            <TextBlock Text="Дата рождения:" FontSize="25"/>
+                            <TextBlock Text="{Binding data_rozhdeniya,StringFormat=dd.MM.yyyy}" FontSize="25"/>
+                            <TextBlock Text=", Дата поступления:" FontSize="25"/>
+                            <TextBlock Text="{Binding data_postupleniya,StringFormat=dd.MM.yyyy}" FontSize="25"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+                            <TextBlock Text="Награды: " FontSize="25"/>
+                            <TextBlock Text="{Binding nagrady}" FontSize="25"/>
+                            <TextBlock Text=", Участие: " FontSize="25"/>
+                            <TextBlock Text="{Binding uchastie}" FontSize="25"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
+                            <Button Name="EditButton" Content="редактировать" Margin="5" FontSize="20" Click="EditButton_Click"></Button>
+                            <Button Name="DeleteButton" Content="удалить" Click="DeleteButton_Click" FontSize="20" Margin="5"></Button>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

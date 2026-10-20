@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0564d1e6aabd4e5195e24f6de36087d6" Name="Diagram1">
+        <EntityTypeShape EntityType="MilitaryDistrictModel.sysdiagrams" Width="1.5" PointX="8.125" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MilitaryDistrictModel.Вид_войск" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MilitaryDistrictModel.Личный_состав" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="MilitaryDistrictModel.Место_дислокации" Width="1.5" PointX="1.125" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MilitaryDistrictModel.Роты" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MilitaryDistrictModel.Части" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <AssociationConnector Association="MilitaryDistrictModel.FK__Части__id_vid__5EBF139D" ManuallyRouted="false" />
+        <AssociationConnector Association="MilitaryDistrictModel.FK__Личный_со__id_ro__06CD04F7" ManuallyRouted="false" />
+        <AssociationConnector Association="MilitaryDistrictModel.FK__Части__id_mesto__5DCAEF64" ManuallyRouted="false" />
+        <AssociationConnector Association="MilitaryDistrictModel.FK__Роты__id_chast__619B8048" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
